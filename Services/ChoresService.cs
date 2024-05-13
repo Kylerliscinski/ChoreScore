@@ -1,5 +1,6 @@
 
 
+
 namespace ChoreScore.Services;
 
 public class ChoresService
@@ -21,5 +22,26 @@ public class ChoresService
   {
     Chore chore = _repository.CreateChore(choreData);
     return chore;
+  }
+
+  internal Chore GetChoreById(int choreId)
+  {
+    Chore chore = _repository.GetChoreById(choreId);
+
+    if (chore == null)
+    {
+      throw new Exception($"Invalid id: {choreId}");
+    }
+
+    return chore;
+  }
+
+  internal string DestroyChore(int choreId)
+  {
+    Chore choreToDestroy = GetChoreById(choreId);
+
+    _repository.DestroyChore(choreId);
+
+    return $"{choreToDestroy.Name} is removed";
   }
 }
